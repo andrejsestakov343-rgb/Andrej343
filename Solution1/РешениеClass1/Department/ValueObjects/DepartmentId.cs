@@ -20,7 +20,11 @@ namespace РешениеClass1.Departament.ValueObjects
             return new DepartmentId(value);
         }
 
+<<<<<<< HEAD
         public static DepartmentId? From(Guid? value)
+=======
+        public static DepartmentId? CreateNullable(Guid? value)
+>>>>>>> d6a98d7 (world)
         {
             if (value == null || value == Guid.Empty)
                 return null;

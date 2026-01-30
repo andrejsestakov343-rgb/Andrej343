@@ -4,6 +4,7 @@ using System.Text;
 
 namespace РешениеClass1.Position.ValueObjects
 {
+<<<<<<< HEAD
         public sealed record PositionId
         {
         private PositionId(Guid Value)
@@ -11,6 +12,10 @@ namespace РешениеClass1.Position.ValueObjects
             Id = Value;
         }
         public Guid Id { get; }
+=======
+        public sealed record PositionId(Guid Value)
+        {
+>>>>>>> d6a98d7 (world)
             public static PositionId New() => new(Guid.NewGuid());
 
             public static implicit operator Guid(PositionId id) => id.Value;

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using System.Globalization;
+=======
+>>>>>>> d6a98d7 (world)
 using System.Text;
 
 namespace РешениеClass1.Position.ValueObjects
 {
+<<<<<<< HEAD
     public sealed record PositionName
     {
         private PositionName(string Value)
@@ -12,6 +16,10 @@ namespace РешениеClass1.Position.ValueObjects
             Name = Value;
         }
         public string Name { get; }
+=======
+    public sealed record PositionName(string Value)
+    {
+>>>>>>> d6a98d7 (world)
         private const int MinLength = 1;
         private const int MaxLength = 100;
 

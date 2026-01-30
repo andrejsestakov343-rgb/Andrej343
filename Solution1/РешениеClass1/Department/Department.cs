@@ -19,7 +19,11 @@ namespace РешениеClass1.Departament
         public bool IsActive { get; private set; }
         public EntityLifeTime LifeTime { get; private set; }
 
+<<<<<<< HEAD
         public Department(
+=======
+        private Department(
+>>>>>>> d6a98d7 (world)
             DepartmentId id,
             DepartmentName name,
             DepartmentIdentifier identifier,
