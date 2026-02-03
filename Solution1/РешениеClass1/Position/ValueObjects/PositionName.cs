@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace РешениеClass1.Position.ValueObjects
 {
-    public sealed record PositionName(string Value)
+    public sealed record PositionName
     {
+        private PositionName(string Value)
+        {
+            Name = Value;
+        }
+        public string Name { get; }
         private const int MinLength = 1;
         private const int MaxLength = 100;
 

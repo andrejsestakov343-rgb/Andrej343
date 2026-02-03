@@ -24,11 +24,6 @@ namespace РешениеClass1.Position
             UpdatedAt = CreatedAt;
         }
 
-        public void Deactivate()
-        {
-            IsActive = false;
-            UpdatedAt = DateTime.UtcNow;
-        }
 
         // Equality
         public override bool Equals(object? obj) =>

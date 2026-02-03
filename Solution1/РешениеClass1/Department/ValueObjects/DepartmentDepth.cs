@@ -15,7 +15,7 @@ namespace РешениеClass1.Departament.ValueObjects
             Value = value; 
         }
 
-        public static DepartmentDepth Create(short value)
+        public static DepartmentDepth From(short value)
         {
             if (value < 0)
                 throw new ArgumentException("Глубина подразделения не может быть отрицательной.", nameof(value));
@@ -26,15 +26,20 @@ namespace РешениеClass1.Departament.ValueObjects
             return new DepartmentDepth(value);
         }
 
-        public static DepartmentDepth CalculateFromPath(DepartmentPath path)
+        public static DepartmentDepth From (DepartmentPath path)
         {
             var depth = path.CalculateDepth();
-            return Create(depth);
+            return From(depth);
         }
 
         public DepartmentDepth Increment()
         {
-            return Create ((short)(Value + 1));
+            return From ((short)(Value + 1));
+        }
+
+        public static DepartmentDepth From(string v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

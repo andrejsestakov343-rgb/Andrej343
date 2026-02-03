@@ -15,7 +15,7 @@ namespace РешениеClass1.Departament.ValueObjects
 
         private DepartmentIdentifier(string value) => Value = value;
 
-        public static DepartmentIdentifier Create(string value)
+        public static DepartmentIdentifier From(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Идентификатор подразделения не может быть пустым.", nameof(value));
