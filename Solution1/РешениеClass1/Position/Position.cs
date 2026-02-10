@@ -24,14 +24,13 @@ namespace РешениеClass1.Position
             UpdatedAt = CreatedAt;
         }
 
-<<<<<<< HEAD
-=======
+
         public void Deactivate()
         {
             IsActive = false;
             UpdatedAt = DateTime.UtcNow;
         }
->>>>>>> d6a98d7 (world)
+
 
         // Equality
         public override bool Equals(object? obj) =>
