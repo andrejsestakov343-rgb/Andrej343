@@ -11,7 +11,10 @@ namespace РешениеClass1.Position.ValueObjects
         {
             Name = Value;
         }
+
         public string Name { get; }
+        public string Value { get; private set; }
+
         private const int MinLength = 1;
         private const int MaxLength = 100;
 

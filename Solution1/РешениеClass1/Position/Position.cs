@@ -25,6 +25,13 @@ namespace РешениеClass1.Position
         }
 
 
+        public void Deactivate()
+        {
+            IsActive = false;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+
         // Equality
         public override bool Equals(object? obj) =>
             obj is Position other && Id == other.Id; // ← теперь работает, т.к. PositionId — record с ==

@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace РешениеClass1.Position.ValueObjects
+﻿namespace РешениеClass1.Position.ValueObjects
 {
-        public sealed record PositionId
-        {
+
+    public sealed record PositionId
+    {
         private PositionId(Guid Value)
         {
             Id = Value;
         }
+
         public Guid Id { get; }
-            public static PositionId New() => new(Guid.NewGuid());
 
-            public static implicit operator Guid(PositionId id) => id.Value;
-            public static implicit operator PositionId(Guid guid) => new(guid);
+        public Guid Value { get; private set; }
 
-            public override string ToString() => Value.ToString();
-        }
+
+        public static PositionId New() => new(Guid.NewGuid());
+
+        public static implicit operator Guid(PositionId id) => id.Value;
+        public static implicit operator PositionId(Guid guid) => new(guid);
+
+        public override string ToString() => Value.ToString();
+    }
 }
