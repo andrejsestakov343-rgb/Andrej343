@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace РешениеClass1.Position.ValueObjects
+namespace Domain.Positions.ValueObjects
 {
     public sealed record PositionName
     {
@@ -22,16 +22,23 @@ namespace РешениеClass1.Position.ValueObjects
         public static PositionName From(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Position name cannot be null, empty, or whitespace.", nameof(value));
+                throw new ArgumentException(
+                    "Position name cannot be null, empty, or whitespace.",
+                    nameof(value)
+                );
 
             if (value.Length > MaxLength)
-                throw new ArgumentException($"Position name cannot exceed {MaxLength} characters.", nameof(value));
+                throw new ArgumentException(
+                    $"Position name cannot exceed {MaxLength} characters.",
+                    nameof(value)
+                );
 
             return new PositionName(value.Trim());
         }
 
         // Неявные преобразования
         public static implicit operator string(PositionName name) => name.Value;
+
         public static implicit operator PositionName(string name) => From(name);
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using РешениеClass1.Position.ValueObjects;
 
-namespace РешениеClass1.Position.ValueObjects
+namespace Domain.Positions.ValueObjects
 {
     public sealed record PositionDescription
     {
@@ -18,7 +17,6 @@ namespace РешениеClass1.Position.ValueObjects
 
         private const int MaxLength = 500;
 
-
         // Фабрика — единственный способ создания с валидацией
         public static PositionDescription From(string value)
         {
@@ -31,7 +29,8 @@ namespace РешениеClass1.Position.ValueObjects
             {
                 throw new ArgumentException(
                     $"Позиция не может превышать {MaxLength} символов.",
-                    nameof(value));
+                    nameof(value)
+                );
             }
 
             return new PositionDescription(value.Trim());
@@ -39,10 +38,8 @@ namespace РешениеClass1.Position.ValueObjects
 
         // Неявные преобразования
         public static implicit operator string?(PositionDescription desc) => desc.Value;
+
         public static implicit operator PositionDescription?(string? desc) =>
             desc is null ? null : From(desc);
     }
 }
-
-
-

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace РешениеClass1.Departament.ValueObjects
+namespace Domain.Departments.ValueObjects
 {
     public sealed record DepartmentIdentifier
     {
@@ -15,11 +15,11 @@ namespace РешениеClass1.Departament.ValueObjects
 
         private DepartmentIdentifier(string value) => Value = value;
 
-<<<<<<< HEAD
-        public static DepartmentIdentifier From(string value)
-=======
+
+        
+
         public static DepartmentIdentifier Create(string value)
->>>>>>> d6a98d7 (world)
+
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Идентификатор подразделения не может быть пустым.", nameof(value));

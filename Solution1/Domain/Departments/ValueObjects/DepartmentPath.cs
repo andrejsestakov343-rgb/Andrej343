@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace РешениеClass1.Departament.ValueObjects
+namespace Domain.Departments.ValueObjects
 {
     public sealed record DepartmentPath
     {
@@ -10,7 +10,7 @@ namespace РешениеClass1.Departament.ValueObjects
 
         public string Value { get; }
 
-        private DepartmentPath(string  value)
+        private DepartmentPath(string value)
         {
             Value = value;
         }
@@ -18,16 +18,25 @@ namespace РешениеClass1.Departament.ValueObjects
         public static DepartmentPath Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Путь подразделения не может быть пустым.", nameof(value));
+                throw new ArgumentException(
+                    "Путь подразделения не может быть пустым.",
+                    nameof(value)
+                );
 
             if (value.Length > MaxLength)
-                throw new ArgumentException($"Путь подразделения не может быть превышать {MaxLength} символов.", nameof(value));
+                throw new ArgumentException(
+                    $"Путь подразделения не может быть превышать {MaxLength} символов.",
+                    nameof(value)
+                );
 
             var parts = value.Split(',');
             foreach (var part in parts)
             {
                 if (string.IsNullOrWhiteSpace(part))
-                    throw new ArgumentException("Путь подразделения содержит пустые части.", nameof(value));
+                    throw new ArgumentException(
+                        "Путь подразделения содержит пустые части.",
+                        nameof(value)
+                    );
             }
 
             return new DepartmentPath(value);
@@ -35,10 +44,13 @@ namespace РешениеClass1.Departament.ValueObjects
 
         public static DepartmentPath CreateForRoot(string identifier)
         {
-            return Create(identifier); 
+            return Create(identifier);
         }
 
-        public static DepartmentPath CreateForChild(DepartmentPath parentPath, string childIdentifier)
+        public static DepartmentPath CreateForChild(
+            DepartmentPath parentPath,
+            string childIdentifier
+        )
         {
             var newPath = $"{parentPath.Value}.{childIdentifier}";
             return Create(newPath);
@@ -46,7 +58,7 @@ namespace РешениеClass1.Departament.ValueObjects
 
         public short CalculateDepth()
         {
-            return (short)Value.Count(c  => c == ',');
+            return (short)Value.Count(c => c == ',');
         }
 
         public string GetParentPath()
