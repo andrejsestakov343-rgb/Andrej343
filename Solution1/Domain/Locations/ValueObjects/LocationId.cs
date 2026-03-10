@@ -1,4 +1,4 @@
-﻿namespace Domain.LocationsContext.ValueObjects
+﻿namespace Domain.Locations.ValueObjects
 {
     public sealed record LocationId
     {
