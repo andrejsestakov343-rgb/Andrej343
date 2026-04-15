@@ -2,22 +2,19 @@
 
 namespace Domain.Locations
 {
-    public class Location
+    public class Location(
+        LocationId id,
+        LocationAddress address,
+        LocationName name,
+        IanaTimeZone timeZone,
+        EntityLifeTime lifeTime
+    )
     {
-        public Location(
-            LocationId id,
-            LocationAddress address,
-            LocationName name,
-            IanaTimeZone timeZone,
-            EntityLifeTime lifeTime
-        )
-        {
-            Id = id;
-            Address = address;
-            Name = name;
-            TimeZone = timeZone;
-            LifeTime = lifeTime;
-        }
+        public LocationId Id { get; } = id;
+        public LocationAddress Address { get; private set; } = address;
+        public LocationName Name { get; private set; } = name;
+        public IanaTimeZone TimeZone { get; private set; } = timeZone;
+        public EntityLifeTime LifeTime { get; } = lifeTime;
 
         public void СhangeТimeZone(string timeZone)
         {
@@ -46,11 +43,6 @@ namespace Domain.Locations
             Address = LocationAddress.Create(address);
             LifeTime.UpdateUpdatedAt();
         }
-        public LocationId Id { get; }
-        public LocationAddress Address { get; private set; }
-        public LocationName Name { get; private set; }
-        public EntityLifeTime LifeTime { get; }
-        public IanaTimeZone TimeZone { get; private set; }
     }
 }
 

@@ -2,7 +2,7 @@
 {
     public sealed record PositionId
     {
-        private PositionId(Guid Value)
+        public PositionId(Guid Value)
         {
             Id = Value;
         }
