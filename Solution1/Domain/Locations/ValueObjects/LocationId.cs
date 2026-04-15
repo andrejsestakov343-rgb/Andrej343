@@ -4,7 +4,7 @@
     {
         public Guid Value { get; }
 
-        private LocationId(Guid value)
+        public LocationId(Guid value)
         {
             Value = value;
         }
@@ -21,5 +21,6 @@
 
             return new LocationId(value);
         }
+        public static implicit operator LocationId(Guid guid)  => new(guid);
     }
 }
