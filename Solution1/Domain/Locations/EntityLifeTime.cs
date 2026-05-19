@@ -25,7 +25,7 @@
 
     public void Restore()
     {
-        IsArchived = false; 
+        IsArchived = false;
         UpdateUpdatedAt();
     }
 }

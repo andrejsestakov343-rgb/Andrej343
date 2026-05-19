@@ -20,8 +20,8 @@ public class PositionController : ControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] CreatePositionForm form)
     {
-        var positionName = PositionName.From(form.PositionName);
-        var description = PositionDescription.From(form.PositionDescription);
+        var positionName = PositionName.Create(form.PositionName);
+        var description = PositionDescription.Create(form.PositionDescription);
         var positionId = PositionId.New();
         var lifeTime = new EntityLifeTime();
         var position = new Position(positionId, positionName, description, lifeTime);
@@ -32,8 +32,8 @@ public class PositionController : ControllerBase
     [HttpPatch("{id}")]
     public IActionResult Update( Guid id, [FromBody] UpdatePositionForm form)
     {
-        var positionName = PositionName.From(form.PositionName);
-        var description = PositionDescription.From(form.PositionDescription);
+        var positionName = PositionName.Create(form.PositionName);
+        var description = PositionDescription.Create(form.PositionDescription);
         var positionId = new PositionId(id);
         var lifeTime = new EntityLifeTime();
         var position = new Position(positionId, positionName, description, lifeTime);
@@ -51,7 +51,7 @@ public class PositionController : ControllerBase
         if (!ImitatyaBazaDannya.EntityArchive(position))
             return BadRequest(new { message = "Удаление архивированных запрещено" });
 
-        ImitatyaBazaDannya.RemovePosition(id);
+        ImitatyaBazaDannya.RemovePosition(new PositionId (id));
         return NoContent();
     }
 }

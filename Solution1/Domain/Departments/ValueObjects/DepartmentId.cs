@@ -19,12 +19,5 @@ namespace Domain.Departments.ValueObjects
 
             return new DepartmentId(value);
         }
-
-
-        
-
-        
-
-        
     }
 }

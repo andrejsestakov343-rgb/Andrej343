@@ -12,7 +12,7 @@ namespace Domain.Departments.ValueObjects
 
         private DepartmentDepth(short value)
         {
-            Value = value; 
+            Value = value;
         }
 
         public DepartmentDepth Increment()
@@ -37,9 +37,9 @@ namespace Domain.Departments.ValueObjects
         {
             if ((value < 0) || (value > MaxDepth))
                 throw new ArgumentException($"Значение должно быть в диапазоне от {short.MinValue} до {short.MaxValue}", nameof(value));
-            
+
             return Create(value);
         }
-       
+
     }
 }

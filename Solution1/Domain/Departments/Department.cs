@@ -1,30 +1,34 @@
-﻿using Domain.Departments.ValueObjects;
+﻿using System.Data.Common;
+using Domain.Departments.ValueObjects;
 
 namespace Domain.Departments
 {
     public class Department
     {
-        public DepartmentId Id { get; private set; }
-        public DepartmentName Name { get; private set; }
-        public DepartmentIdentifier Identifier { get; private set; }
-        public DepartmentId? ParentId { get; private set; }
-        public DepartmentPath Path { get; private set; }
-        public DepartmentDepth Depth { get; private set; }
-        public bool IsActive { get; private set; }
-        public EntityLifeTime LifeTime { get; private set; }
+        public Department()
+        {
+            
+        }
+        public DepartmentId Id { get;  }
+        public DepartmentName Name { get; }
+        public DepartmentIdentifier Identifier { get; }
+        public DepartmentId ParentId { get; set; }
+        public DepartmentPath Path { get; }
+        public DepartmentDepth Depth { get; }
+        public bool IsActive { get; }
+        public EntityLifeTime LifeTime { get; }
 
-        public ICollection<DepartmentPosition> DepartmentPositions { get; private set; } = new List<DepartmentPosition>();
-        public ICollection<DepartmentLocation> DepartmentLocations { get; private set; } = new List<DepartmentLocation>();
+        public ICollection<DepartmentPosition> DepartmentPositions { get;  } = new List<DepartmentPosition>();
+        public ICollection<DepartmentLocation> DepartmentLocations { get;  } = new List<DepartmentLocation>();
 
         private Department(
 
             DepartmentId id,
             DepartmentName name,
             DepartmentIdentifier identifier,
-            DepartmentId? parentId,
+            DepartmentId parentId,
             DepartmentPath path,
             DepartmentDepth depth,
-            
             EntityLifeTime lifeTime)
         {
             Id = id;
@@ -33,7 +37,6 @@ namespace Domain.Departments
             ParentId = parentId;
             Path = path;
             Depth = depth;
-            
             LifeTime = lifeTime;
         }
 
@@ -64,9 +67,9 @@ namespace Domain.Departments
                 throw new ArgumentNullException(nameof(identifier));
 
             if (parent == null)
-                throw new ArgumentNullException(nameof(parent));
+            throw new ArgumentNullException(nameof(parent));
 
-            if (!parent.IsActive)
+                if (!parent.IsActive)
                 throw new InvalidOperationException("Нельзя создать дочернее в архивном подразделении");
 
             if (parent.Depth.Value >= DepartmentDepth.MaxDepth)

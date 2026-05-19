@@ -1,5 +1,6 @@
 <Solution>
-  <Project Path="Domain/Domain.csproj" Id="9eecb856-8eb6-48ac-90ed-e2df3ef7aedf" />
-  <Project Path="TestProject1/TestProject1.csproj" Id="94f43750-e8d1-4620-9501-2117f72554a3" />
-  <Project Path="WebApplication1/WebApplication1.csproj" Id="79a6996a-3669-4567-aeaf-d256b8ef6617" />
+  <Project Path="Domain/Domain.csproj" Id="9eecb856-8eb6-48ac-90ed-e2df3ef7aedf"/>
+  <Project Path="TestProject1/TestProject1.csproj" Id="94f43750-e8d1-4620-9501-2117f72554a3"/>
+  <Project Path="WebApplication1/WebApplication1.csproj" Id="79a6996a-3669-4567-aeaf-d256b8ef6617"/>
+  <Project Path="Infrastructure/Infrastructure.csproj"/>
 </Solution>
