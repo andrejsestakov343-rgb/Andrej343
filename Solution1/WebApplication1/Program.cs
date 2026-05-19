@@ -2,9 +2,12 @@ using Domain.Locations;
 using Domain.Locations.ValueObjects;
 using Domain.Positions;
 using Domain.Positions.ValueObjects;
+using Infrastructure;
 using WebApplication1;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOptions<Infrastructure.DatabaseOptions>().BindConfiguration("Database");
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -100,7 +103,7 @@ app.MapPatch("/api/locations/{id}", (Guid id, Location updateLocation) =>
 
 app.MapPatch("/api/positions/{id}", (Guid id, Position updatePosition) =>
 {
-    PositionId positionId = id;
+    PositionId positionId = new PositionId (id);
     try
     {
         var existingPosition = ImitatyaBazaDannya.GetById(positionId);
@@ -142,7 +145,7 @@ app.MapDelete("/api/locations/{id}", (Guid id) =>
 
 app.MapDelete("/api/positions/{id}", (Guid id) =>
 {
-    PositionId positionId = id;
+    PositionId positionId = new PositionId (id);
 
     var position = ImitatyaBazaDannya.GetById(positionId);
 
@@ -155,6 +158,7 @@ app.MapDelete("/api/positions/{id}", (Guid id) =>
     ImitatyaBazaDannya.RemovePosition(positionId);
     return Results.NoContent();
 });
+
 
 app.UseSwagger();
 app.UseSwaggerUI();

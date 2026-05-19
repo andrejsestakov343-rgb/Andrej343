@@ -6,18 +6,16 @@ namespace Domain.Positions.ValueObjects
 {
     public sealed record PositionDescription
     {
-        private PositionDescription(string Value)
+        private PositionDescription(string value)
         {
-            Description = Value;
+            Value = value;
         }
 
-        public string Description { get; }
 
-        public string? Value { get; private set; }
-
+        public string Value { get; }
         private const int MaxLength = 500;
 
-        public static PositionDescription From(string value)
+        public static PositionDescription Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -31,10 +29,7 @@ namespace Domain.Positions.ValueObjects
 
             return new PositionDescription(value.Trim());
         }
-
-        public static implicit operator string?(PositionDescription desc) => desc.Value;
-
-        public static implicit operator PositionDescription?(string? desc) =>
-            desc is null ? null : From(desc);
+         public static implicit operator string(PositionDescription desc) => desc.Value;
+         public static implicit operator PositionDescription(string value) => Create(value);
     }
 }

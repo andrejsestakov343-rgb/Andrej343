@@ -19,22 +19,13 @@ namespace Domain.Locations.ValueObjects
         public static LocationName Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException(
-                    "Название локации не может быть пустым.",
-                    nameof(value)
-                );
+                throw new ArgumentException( "Название локации не может быть пустым.",nameof(value));
 
             if (value.Length > MaxLength)
-                throw new ArgumentException(
-                    $"Название локации не может превышать {MaxLength} символов.",
-                    nameof(value)
-                );
+                throw new ArgumentException( $"Название локации не может превышать {MaxLength} символов.",nameof(value) );
 
             if (value.Length < MinLength)
-                throw new ArgumentException(
-                    $"Название локации должно быть от {MinLength} до {MaxLength} символов.",
-                    nameof(value)
-                );
+                throw new ArgumentException( $"Название локации должно быть от {MinLength} до {MaxLength} символов.",nameof(value) );
 
             return new LocationName(value);
         }

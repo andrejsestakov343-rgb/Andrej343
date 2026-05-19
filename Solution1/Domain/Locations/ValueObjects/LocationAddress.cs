@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Domain.Locations.ValueObjects
 {
-    public class LocationAddress
+    public sealed class LocationAddress
     {
         private readonly List<string> _addressParts = [];
-        private string Value { get; }
+        public string Value { get; }
 
         public IReadOnlyList<string> AddressParts => _addressParts.AsReadOnly();
 
@@ -21,10 +21,7 @@ namespace Domain.Locations.ValueObjects
         public static LocationAddress Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentNullException(
-                    "Адрес локации не может быть пустым.",
-                    nameof(value)
-                );
+                throw new ArgumentException("Адрес локации не может быть пустым.", nameof(value) );
 
             List<string> parts =
             [
@@ -35,10 +32,7 @@ namespace Domain.Locations.ValueObjects
             ];
 
             if (parts.Count == 0)
-                throw new ArgumentException(
-                    "Адрес локации должен сохранить хотя бы одну часть.",
-                    nameof(value)
-                );
+                throw new ArgumentException("Адрес локации должен сохранить хотя бы одну часть.",nameof(value));
 
             return new LocationAddress(parts);
         }

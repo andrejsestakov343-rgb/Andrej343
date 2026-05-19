@@ -20,22 +20,13 @@ namespace Domain.Locations.ValueObjects
         public static EntityLifeTime Create(DateTime createdAt, DateTime updatedAt, bool isActivate)
         {
             if (createdAt == DateTime.MinValue || createdAt == DateTime.MaxValue)
-                throw new ArgumentException(
-                    "Некорректное значение даты создания.",
-                    nameof(createdAt)
-                );
+                throw new ArgumentException( "Некорректное значение даты создания.",nameof(createdAt));
 
             if (updatedAt == DateTime.MinValue || updatedAt == DateTime.MaxValue)
-                throw new ArgumentException(
-                    "Некорретное значение даты обновления.",
-                    nameof(updatedAt)
-                );
+                throw new ArgumentException( "Некорретное значение даты обновления.",nameof(updatedAt));
 
             if (updatedAt < createdAt)
-                throw new ArgumentException(
-                    "Дата обновления не может быть меньше даты создания.",
-                    nameof(updatedAt)
-                );
+                throw new ArgumentException("Дата обновления не может быть меньше даты создания.",nameof(updatedAt));
 
             return new EntityLifeTime(createdAt, updatedAt, isActivate);
         }

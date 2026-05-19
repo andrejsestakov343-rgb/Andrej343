@@ -13,9 +13,6 @@
 
         public static PositionId New() => new(Guid.NewGuid());
 
-        public static implicit operator Guid(PositionId id) => id.Value;
-
-        public static implicit operator PositionId(Guid guid) => new(guid);
 
         public override string ToString() => Value.ToString();
     }

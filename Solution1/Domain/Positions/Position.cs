@@ -1,19 +1,25 @@
-﻿using Domain.Positions.ValueObjects;
+﻿using Domain.Departments;
+using Domain.Positions.ValueObjects;
 
 namespace Domain.Positions
 {
-    public class Position(
-        PositionId id,
-        PositionName name,
-        string? description,
-        EntityLifeTime lifeTime
-    )
+    public class Position
     {
-        public PositionId Id { get; } = id;
-        public PositionName Name { get; private set; } = name;
-        public string? Description { get; private set; } = description;
-        public EntityLifeTime LifeTime { get; } = lifeTime;
+        public PositionId Id { get; }
+        public PositionName Name { get; private set; }
+        public string? Description { get; private set; }
+        public EntityLifeTime LifeTime { get; }
 
+        public Position(PositionId id, PositionName name, string? description, EntityLifeTime lifeTime)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            LifeTime = lifeTime;
+        }
+        public Position()
+        {
+        }
         public void ChangeName(PositionName newName)
         {
             if (LifeTime.IsArchived)
@@ -55,5 +61,6 @@ namespace Domain.Positions
             left is not null && right is not null && left.Equals(right);
 
         public static bool operator !=(Position? left, Position? right) => !(left == right);
+        public ICollection<DepartmentPosition> DepartmentPositions { get; } = new List<DepartmentPosition>();
     }
 }
