@@ -1,8 +1,12 @@
+using DirectoryService.Application.LocationContext.CreateLocation;
+using DirectoryService.Application.PositionContext.CreatePosition;
+using Domain.LocationContext.Contracts;
 using Domain.Locations;
 using Domain.Locations.ValueObjects;
 using Domain.Positions;
 using Domain.Positions.ValueObjects;
 using Infrastructure;
+using Infrastructure.Database.Repositores;
 using WebApplication1;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -11,6 +15,16 @@ builder.Services.AddOptions<Infrastructure.DatabaseOptions>().BindConfiguration(
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<CreatePositionHandler>();
+builder.Services.AddScoped<CreateLocationHandler>();
+
+builder.Services.AddScoped<IPositionRepository, PositionRepository>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
 
 WebApplication app = builder.Build();
 
@@ -159,6 +173,7 @@ app.MapDelete("/api/positions/{id}", (Guid id) =>
     return Results.NoContent();
 });
 
+app.MapControllers();
 
 app.UseSwagger();
 app.UseSwaggerUI();

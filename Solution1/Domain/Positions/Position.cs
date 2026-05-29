@@ -5,27 +5,27 @@ namespace Domain.Positions
 {
     public class Position
     {
-        public PositionId Id { get; }
-        public PositionName Name { get; private set; }
+        public PositionId Id { get; } = null!;
+        public PositionName Name { get; private set; } = null!;
         public string? Description { get; private set; }
-        public EntityLifeTime LifeTime { get; }
+        public EntityLifeTime LifeTime { get; } = null!;
 
         public Position(PositionId id, PositionName name, string? description, EntityLifeTime lifeTime)
         {
             Id = id;
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             Description = description;
             LifeTime = lifeTime;
         }
-        public Position()
+        private Position()
         {
         }
         public void ChangeName(PositionName newName)
         {
             if (LifeTime.IsArchived)
                 throw new InvalidOperationException("Редактирование архивированных запрещено");
-            Name = newName;
 
+            Name = newName ?? throw new ArgumentNullException(nameof(newName));
             LifeTime.UpdateUpdatedAt();
         }
 

@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\DirectoryService.Application\DirectoryService.Application.csproj" />
   </ItemGroup>
 
 </Project>
