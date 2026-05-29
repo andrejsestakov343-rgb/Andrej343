@@ -7,13 +7,11 @@ namespace Domain.Positions.ValueObjects
 {
     public sealed record PositionName
     {
-        private PositionName(string Value)
+        public string Value { get; }
+        private PositionName(string value)
         {
-            Name = Value;
-
+            Value = value;
         }
-
-        public string Name { get; }
 
         private const int MinLength = 1;
         private const int MaxLength = 100;
