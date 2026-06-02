@@ -5,4 +5,7 @@ public sealed record EntityLifeTime(DateTimeOffset CreatedAt, DateTimeOffset? Up
     public static EntityLifeTime CreateNew() => new(DateTimeOffset.UtcNow);
 
     public EntityLifeTime Update() => this with { UpdatedAt = DateTimeOffset.UtcNow };
+
+     public bool IsArchived => UpdatedAt < DateTimeOffset.UtcNow.AddDays(-30);
 }
+

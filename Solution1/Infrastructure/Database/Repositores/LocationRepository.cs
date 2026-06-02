@@ -5,14 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database.Repositores;
 
-public sealed class LocationRepository : ILocationRepository
+public sealed class LocationRepository(DirectoryDbContext context) : ILocationRepository
 {
-    private readonly DirectoryDbContext _context;
-
-    public LocationRepository(DirectoryDbContext context)
-    {
-        _context = context;
-    }
+    private readonly DirectoryDbContext _context = context;
 
     public async Task<bool> Exists(string locationName, CancellationToken ct = default)
     {
@@ -26,5 +21,40 @@ public sealed class LocationRepository : ILocationRepository
         await _context.Locations.AddAsync(location, ct);
         await _context.SaveChangesAsync(ct);
     }
+    public async Task<Location?> GetById(Guid id, CancellationToken ct = default)
+    {
+        var locationId = LocationId.Create(id);
+        return await _context.Locations.FirstOrDefaultAsync(l => l.Id == locationId, ct);
+    }
+
+    public Task<Location?> GetByName(LocationName name, CancellationToken ct = default)
+    {
+        return _context.Locations.FirstOrDefaultAsync(l => l.Name == name, ct);
+    }
+
+    public async Task Update(Location location, CancellationToken ct = default)
+    {
+        _context.Locations.Update(location);
+        await _context.SaveChangesAsync(ct);
+    }
+    public Task Update(Domain.LocationContext.Entities.Location location, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Location?> GetByName(Domain.LocationContext.ValueObjects.LocationName name, CancellationToken ct = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Add(Domain.LocationContext.Entities.Location location, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
 }
+
+
+
+
 

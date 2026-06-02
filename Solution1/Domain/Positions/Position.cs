@@ -1,5 +1,6 @@
 ﻿using Domain.Departments;
 using Domain.Positions.ValueObjects;
+using Domain.Shared.ValueObjects;
 
 namespace Domain.Positions
 {
@@ -8,7 +9,7 @@ namespace Domain.Positions
         public PositionId Id { get; } = null!;
         public PositionName Name { get; private set; } = null!;
         public string? Description { get; private set; }
-        public EntityLifeTime LifeTime { get; } = null!;
+        public EntityLifeTime LifeTime { get; private set;} = null!;
 
         public Position(PositionId id, PositionName name, string? description, EntityLifeTime lifeTime)
         {
@@ -26,7 +27,7 @@ namespace Domain.Positions
                 throw new InvalidOperationException("Редактирование архивированных запрещено");
 
             Name = newName ?? throw new ArgumentNullException(nameof(newName));
-            LifeTime.UpdateUpdatedAt();
+            LifeTime = LifeTime.Update();
         }
 
         public void ChangeDescription(string? description)
@@ -35,7 +36,7 @@ namespace Domain.Positions
                 throw new InvalidOperationException("Редактирование архивированных запрещено");
 
             Description = description;
-            LifeTime.UpdateUpdatedAt();
+            LifeTime = LifeTime.Update();
         }
 
         public void Archive()
@@ -43,7 +44,7 @@ namespace Domain.Positions
             if (LifeTime.IsArchived)
                 throw new InvalidOperationException("Редактирование архивированных запрещено");
 
-            LifeTime.Archive();
+            LifeTime = LifeTime with { UpdatedAt = DateTimeOffset.MinValue };
         }
 
 
@@ -52,7 +53,7 @@ namespace Domain.Positions
             if (!LifeTime.IsArchived)
                 throw new InvalidOperationException("Редактирование неархивированных запрещено");
 
-            LifeTime.Restore();
+            LifeTime = LifeTime.Update();
         }
         public override bool Equals(object? obj) => obj is Position other && Id == other.Id;
         public override int GetHashCode() => Id.Value.GetHashCode();

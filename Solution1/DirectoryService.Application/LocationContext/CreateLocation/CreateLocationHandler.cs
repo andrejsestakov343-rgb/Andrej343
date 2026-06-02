@@ -1,14 +1,16 @@
 
+using Domain.LocationContext.Contracts;
+using Domain.LocationContext.Entities;
+using Domain.LocationContext.ValueObjects;
+using Domain.Shared.ValueObjects;
+
 namespace DirectoryService.Application.LocationContext.CreateLocation;
 
-public sealed class CreateLocationHandler
+public sealed class CreateLocationHandler(ILocationRepository repository)
 {
-    private readonly ILocationRepository _repository;
+    private readonly ILocationRepository _repository = repository;
 
-    public CreateLocationHandler(ILocationRepository repository)
-    {
-        _repository = repository;
-    }
+
     public async Task<Guid> Handle(CreateLocationCommand command, CancellationToken ct = default)
     {
         ValidateFields(command);
@@ -40,7 +42,7 @@ public sealed class CreateLocationHandler
     private static Location CreateLocation(CreateLocationCommand command)
     {
         var id = new LocationId();
-        var lifeTime = EntityLifeTime.Create(command.IanaTimeZone);
+        var lifeTime = EntityLifeTime.CreateNew();
         var name = LocationName.Create(command.Name);
         var address = LocationAddress.Create(command.Address);
         var timeZone = LocationTimeZone.Create(command.IanaTimeZone);

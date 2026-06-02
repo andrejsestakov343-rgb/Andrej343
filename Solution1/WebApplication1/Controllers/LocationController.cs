@@ -75,4 +75,3 @@ public IActionResult Delete(Guid id)
         return NoContent();
     }
 }
-
