@@ -2,6 +2,7 @@
 using Domain.Locations.ValueObjects;
 using Domain.Positions;
 using Domain.Positions.ValueObjects;
+using Domain.Shared.ValueObjects;
 
 namespace WebApplication1
 {

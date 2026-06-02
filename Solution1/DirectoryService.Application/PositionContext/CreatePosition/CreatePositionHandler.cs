@@ -1,14 +1,16 @@
 
+using Domain.PositionContext.Contracts;
+using Domain.PositionContext.Entities;
+using Domain.PositionContext.ValueObjects;
+using Domain.Shared.ValueObjects;
+
 namespace DirectoryService.Application.PositionContext.CreatePosition;
 
-public sealed class CreatePositionHandler
+public sealed class CreatePositionHandler(IPositionRepository repository)
 {
-    private readonly IPositionRepository _repository;
+    private readonly IPositionRepository _repository = repository;
 
-    public CreatePositionHandler(IPositionRepository repository)
-    {
-       _repository = repository;
-    }
+
     public async Task<Guid> Handle(CreatePositionCommand command, CancellationToken ct = default)
     {
         ValidateName(command.Name);
@@ -34,7 +36,7 @@ public sealed class CreatePositionHandler
     private static Position CreatePosition(string name)
     {
         var id = new PositionId();
-        var lifeTime = EntityLifeTime.Create();
+       var lifeTime = EntityLifeTime.CreateNew();
         var positionName = PositionName.Create(name);
 
         return new Position(id, positionName, lifeTime);

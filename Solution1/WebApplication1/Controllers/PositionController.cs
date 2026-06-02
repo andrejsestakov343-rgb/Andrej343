@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Positions.ValueObjects;
 using Domain.Positions;
 using Microsoft.VisualBasic;
+using Domain.Shared.ValueObjects;
+
 
 namespace WebApplication1.Controllers;
 [ApiController]
@@ -23,7 +25,7 @@ public class PositionController : ControllerBase
         var positionName = PositionName.Create(form.PositionName);
         var description = PositionDescription.Create(form.PositionDescription);
         var positionId = PositionId.New();
-        var lifeTime = new EntityLifeTime();
+        var lifeTime = EntityLifeTime.CreateNew();
         var position = new Position(positionId, positionName, description, lifeTime);
         ImitatyaBazaDannya.Add(position);
         return Created($"/api/positions/{position.Id}", position);
@@ -35,7 +37,7 @@ public class PositionController : ControllerBase
         var positionName = PositionName.Create(form.PositionName);
         var description = PositionDescription.Create(form.PositionDescription);
         var positionId = new PositionId(id);
-        var lifeTime = new EntityLifeTime();
+        var lifeTime = EntityLifeTime.CreateNew();
         var position = new Position(positionId, positionName, description, lifeTime);
         ImitatyaBazaDannya.UpdatePosition(position);
         return Ok(position);

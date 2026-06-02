@@ -1,5 +1,7 @@
 using DirectoryService.Application.LocationContext.CreateLocation;
+using DirectoryService.Application.LocationContext.UpdateLocation;
 using DirectoryService.Application.PositionContext.CreatePosition;
+using DirectoryService.Application.PositionContext.UpdatePosition;
 using Domain.LocationContext.Contracts;
 using Domain.Locations;
 using Domain.Locations.ValueObjects;
@@ -172,7 +174,8 @@ app.MapDelete("/api/positions/{id}", (Guid id) =>
     ImitatyaBazaDannya.RemovePosition(positionId);
     return Results.NoContent();
 });
-
+builder.Services.AddScoped<UpdatePositionHandler>();
+builder.Services.AddScoped<UpdateLocationHandler>();
 app.MapControllers();
 
 app.UseSwagger();
