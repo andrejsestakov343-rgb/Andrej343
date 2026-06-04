@@ -1,6 +1,6 @@
+
+using Domain.PositionContext;
 using Domain.PositionContext.Contracts;
-using Domain.PositionContext.Entities;
-using Domain.PositionContext.ValueObjects;
 
 namespace DirectoryService.Application.PositionContext.UpdatePosition;
 
@@ -18,15 +18,23 @@ public sealed class UpdatePositionHandler(IPositionRepository repository)
             string message = $"Должность не найдена";
             throw new InvalidOperationException(message);
         }
-        PositionName name = PositionName.Create(command.Name);
+        
+        if (!position.IsActive)
+        {
+            string message = "Нельзя обновить неактивную должность";
+            throw new InvalidOperationException(message);
+        }
+        
+        string name = command.Name;
         Position? duplicate = await _repository.GetByName(name, ct);
         if (duplicate is not null && duplicate.Id != position.Id)
         {
             string message = $"Должность с таким именем {name} уже существует";
             throw new InvalidOperationException(message);
         }
-        position.Rename(name);
+        
+        position.ChangeName(name);
         await _repository.Update(position, ct);
-        return position.Id.Value;
-        }
+        return position.Id;
     }
+}

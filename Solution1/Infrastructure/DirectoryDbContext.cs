@@ -1,9 +1,8 @@
-using Domain.Departments;
-using Domain.Locations;
-using Domain.Positions;
-using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Domain.PositionContext;
+using Domain.LocationContext;
+using Domain.Departments;
 namespace Infrastructure;
 
 public class DirectoryDbContext(IOptions<DatabaseOptions> options) : DbContext

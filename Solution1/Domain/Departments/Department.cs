@@ -1,4 +1,4 @@
-﻿using System.Data.Common;
+﻿
 using Domain.Departments.ValueObjects;
 
 namespace Domain.Departments
@@ -9,27 +9,29 @@ namespace Domain.Departments
         {
             
         }
-        public DepartmentId Id { get;  }
-        public DepartmentName Name { get; }
-        public DepartmentIdentifier Identifier { get; }
-        public DepartmentId ParentId { get; set; }
-        public DepartmentPath Path { get; }
+        public DepartmentId Id { get; } = null!;
+        public DepartmentName Name { get; private set; } = null!;
+        public DepartmentIdentifier Identifier { get; } = null!;
+        public DepartmentId? ParentId { get; set; }
+        public DepartmentPath Path { get; } = null!;
         public DepartmentDepth Depth { get; }
-        public bool IsActive { get; }
-        public EntityLifeTime LifeTime { get; }
+        public bool IsActive { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
 
-        public ICollection<DepartmentPosition> DepartmentPositions { get;  } = new List<DepartmentPosition>();
-        public ICollection<DepartmentLocation> DepartmentLocations { get;  } = new List<DepartmentLocation>();
+        public ICollection<DepartmentPosition> DepartmentPositions { get; } = new List<DepartmentPosition>();
+        public ICollection<DepartmentLocation> DepartmentLocations { get; } = new List<DepartmentLocation>();
 
         private Department(
-
             DepartmentId id,
             DepartmentName name,
             DepartmentIdentifier identifier,
-            DepartmentId parentId,
+            DepartmentId? parentId,
             DepartmentPath path,
             DepartmentDepth depth,
-            EntityLifeTime lifeTime)
+            DateTime createdAt,
+            DateTime updatedAt,
+            bool isActive)
         {
             Id = id;
             Name = name;
@@ -37,29 +39,30 @@ namespace Domain.Departments
             ParentId = parentId;
             Path = path;
             Depth = depth;
-            LifeTime = lifeTime;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
+            IsActive = isActive;
         }
 
         public static Department CreateRoot(
             DepartmentName name,
             DepartmentIdentifier identifier,
-            bool isActive = true)
+            bool isActive = false)
         {
             var id = DepartmentId.Create();
             var path = DepartmentPath.CreateForRoot(identifier.Value);
             var depth = DepartmentDepth.Create(1);
-            var lifeTime = new EntityLifeTime();
+            var now = DateTime.UtcNow;
 
-            return new Department(id, name, identifier, null, path, depth, lifeTime);
+            return new Department(id, name, identifier, null, path, depth, now, now, isActive);
         }
 
         public static Department CreateChild(
             DepartmentName name,
             DepartmentIdentifier identifier,
             Department parent,
-            bool isActive = true)
+            bool isActive = false)
         {
-
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
@@ -67,35 +70,29 @@ namespace Domain.Departments
                 throw new ArgumentNullException(nameof(identifier));
 
             if (parent == null)
-            throw new ArgumentNullException(nameof(parent));
+                throw new ArgumentNullException(nameof(parent));
 
-                if (!parent.IsActive)
-                throw new InvalidOperationException("Нельзя создать дочернее в архивном подразделении");
+            if (!parent.IsActive)
+                throw new InvalidOperationException("Нельзя создать дочернее в неактивном подразделении");
 
             if (parent.Depth.Value >= DepartmentDepth.MaxDepth)
                 throw new InvalidOperationException($"Превышена максимальная глубина: {DepartmentDepth.MaxDepth}");
 
-
             var id = DepartmentId.Create();
-            // parent_path + . + child_identifier
-
             var path = DepartmentPath.CreateForChild(parent.Path, identifier.Value);
-
-
-            // massiv strok = .Split('.')
-            // length = depth
             var depth = parent.Depth.Increment();
-            var lifeTime = new EntityLifeTime();
+            var now = DateTime.UtcNow;
 
-            return new Department(id, name, identifier, parent.Id, path, depth, lifeTime);
+            return new Department(id, name, identifier, parent.Id, path, depth, now, now, isActive);
         }
+
         public void AddChild(Department child)
         {
             if (child == null)
                 throw new ArgumentNullException(nameof(child));
 
             if (!IsActive)
-                throw new InvalidOperationException("Нельзя добавить дочернее в архивное подразделение");
+                throw new InvalidOperationException("Нельзя добавить дочернее в неактивное подразделение");
 
             if (child.ParentId != null)
                 throw new InvalidOperationException("Подразделение уже имеет родителя");
@@ -114,6 +111,33 @@ namespace Domain.Departments
                 return false;
 
             return Path.Value.StartsWith(parent.Path.Value + ".", StringComparison.Ordinal);
+        }
+
+        public void Activate()
+        {
+            if (IsActive)
+                throw new InvalidOperationException("Подразделение уже активно");
+
+            IsActive = true;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void Deactivate()
+        {
+            if (!IsActive)
+                throw new InvalidOperationException("Подразделение уже неактивно");
+
+            IsActive = false;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void ChangeName(DepartmentName newName)
+        {
+            if (!IsActive)
+                throw new InvalidOperationException("Нельзя изменить имя неактивного подразделения");
+
+            Name = newName;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }
