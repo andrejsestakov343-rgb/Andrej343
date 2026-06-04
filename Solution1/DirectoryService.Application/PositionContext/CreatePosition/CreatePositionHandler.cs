@@ -1,8 +1,6 @@
 
+using Domain.PositionContext;
 using Domain.PositionContext.Contracts;
-using Domain.PositionContext.Entities;
-using Domain.PositionContext.ValueObjects;
-using Domain.Shared.ValueObjects;
 
 namespace DirectoryService.Application.PositionContext.CreatePosition;
 
@@ -17,7 +15,7 @@ public sealed class CreatePositionHandler(IPositionRepository repository)
         await ValidateUniqueness(command.Name, ct);
         var position = CreatePosition(command.Name);
         await _repository.Add(position, ct);
-        return position.Id.Value;
+        return position.Id;
     }
     private static void ValidateName(string name)
     {
@@ -35,11 +33,10 @@ public sealed class CreatePositionHandler(IPositionRepository repository)
     }
     private static Position CreatePosition(string name)
     {
-        var id = new PositionId();
-       var lifeTime = EntityLifeTime.CreateNew();
-        var positionName = PositionName.Create(name);
+        var id = Guid.NewGuid();
+        var now = DateTime.UtcNow;
 
-        return new Position(id, positionName, lifeTime);
+        return new Position(id, name, null, now, now);
     }
 
 }

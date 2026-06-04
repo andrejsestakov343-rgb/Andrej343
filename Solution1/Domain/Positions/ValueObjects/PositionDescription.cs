@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.Positions.ValueObjects
+﻿namespace Domain.Positions.ValueObjects
 {
     public sealed record PositionDescription
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.Departments.ValueObjects
+﻿namespace Domain.Departments.ValueObjects
 {
     public sealed record DepartmentDepth
     {

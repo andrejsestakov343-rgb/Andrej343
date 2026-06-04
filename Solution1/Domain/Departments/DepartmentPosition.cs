@@ -1,8 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using Domain.Departments;
-using Domain.Departments.ValueObjects;
-using Domain.Positions;
-using Domain.Positions.ValueObjects;
+﻿using Domain.Departments.ValueObjects;
+using Domain.PositionContext;
 
 namespace Domain.Departments;
 
@@ -23,7 +20,7 @@ public class DepartmentPosition
 
     public Position Position { get; init; }
     public DepartmentId DepartmentId { get; }
-    public PositionId PositionId  { get;}
+    public Guid PositionId  { get;}
     public DateTime AssignedAt { get; init; } = DateTime.UtcNow;
 }
 

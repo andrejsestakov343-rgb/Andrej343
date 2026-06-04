@@ -1,8 +1,6 @@
 ﻿using Domain.Departments;
 using Domain.Departments.ValueObjects;
-using Domain.Locations.ValueObjects;
-using System.ComponentModel.DataAnnotations;
-using Xunit.Sdk;
+using Domain.LocationContext.ValueObjects;
 
 namespace TestProject1
 {    
@@ -58,8 +56,7 @@ namespace TestProject1
             [InlineData("EST")]
             public void Create_TimeZone(string value)
             {
-                var timeZone = IanaTimeZone.Create(value);
-
+                var timeZone = LocationTimeZone.Create(value);
                 Assert.NotNull(timeZone);
 
             }
@@ -71,7 +68,7 @@ namespace TestProject1
             [InlineData("XXX")]
             public void Create(string? value)
             {
-                Assert.Throws<ArgumentException>(() => IanaTimeZone.Create(value!));
+                Assert.Throws<ArgumentException>(() => LocationTimeZone.Create(value!));
 
             }
         }

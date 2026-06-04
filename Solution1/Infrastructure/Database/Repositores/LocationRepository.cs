@@ -1,7 +1,9 @@
+using Domain.LocationContext;
 using Domain.LocationContext.Contracts;
-using Domain.Locations;
-using Domain.Locations.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System.Threading;
+using System;
 
 namespace Infrastructure.Database.Repositores;
 
@@ -11,9 +13,7 @@ public sealed class LocationRepository(DirectoryDbContext context) : ILocationRe
 
     public async Task<bool> Exists(string locationName, CancellationToken ct = default)
     {
-        var name = LocationName.Create(locationName);
-        var nameValue = name.Value;
-        return await _context.Locations.AnyAsync(l => l.Name.Value == name.Value, ct);
+        return await _context.Locations.AnyAsync(l => l.Name == locationName, ct);
     }
 
     public async Task Add(Location location, CancellationToken ct = default)
@@ -21,13 +21,13 @@ public sealed class LocationRepository(DirectoryDbContext context) : ILocationRe
         await _context.Locations.AddAsync(location, ct);
         await _context.SaveChangesAsync(ct);
     }
+
     public async Task<Location?> GetById(Guid id, CancellationToken ct = default)
     {
-        var locationId = LocationId.Create(id);
-        return await _context.Locations.FirstOrDefaultAsync(l => l.Id == locationId, ct);
+        return await _context.Locations.FirstOrDefaultAsync(l => l.Id == id, ct);
     }
 
-    public Task<Location?> GetByName(LocationName name, CancellationToken ct = default)
+    public Task<Location?> GetByName(string name, CancellationToken ct = default)
     {
         return _context.Locations.FirstOrDefaultAsync(l => l.Name == name, ct);
     }
@@ -37,21 +37,12 @@ public sealed class LocationRepository(DirectoryDbContext context) : ILocationRe
         _context.Locations.Update(location);
         await _context.SaveChangesAsync(ct);
     }
-    public Task Update(Domain.LocationContext.Entities.Location location, CancellationToken ct)
-    {
-        throw new NotImplementedException();
-    }
 
-    public Task<Location?> GetByName(Domain.LocationContext.ValueObjects.LocationName name, CancellationToken ct = default)
+    public async Task Delete(Location location, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        _context.Locations.Remove(location);
+        await _context.SaveChangesAsync(ct);
     }
-
-    public Task Add(Domain.LocationContext.Entities.Location location, CancellationToken ct)
-    {
-        throw new NotImplementedException();
-    }
-
 }
 
 

@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using Domain.Departments;
 using Domain.Departments.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -18,15 +17,10 @@ internal sealed class DepartmentConfigurations : IEntityTypeConfiguration<Depart
         builder.Property(x => x.Identifier).HasColumnName("identifier").HasMaxLength(255).IsRequired().HasConversion(x => x.Value, x => DepartmentIdentifier.Create(x));
         builder.Property(x => x.Path).HasColumnName("path").HasMaxLength(255).IsRequired().HasConversion(x => x.Value, x => DepartmentPath.Create(x));
         builder.Property(x => x.Depth).HasColumnName("depth").HasMaxLength(255).IsRequired().HasConversion(x => x.Value, x => DepartmentDepth.Create(x));
+        builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired();
+        builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired();
+        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").IsRequired();
 
-        builder.ComplexProperty(x => x.LifeTime, complexPropertyBuilder =>
-   {
-       complexPropertyBuilder.Property(p => p.CreatedAt).HasColumnName("created_at").IsRequired();
-
-       complexPropertyBuilder.Property(p => p.UpdatedAt).HasColumnName("updated_at").IsRequired();
-
-       complexPropertyBuilder.Property(p => p.IsArchived).HasColumnName("is_archived").IsRequired();
-   });
         builder.HasMany(a => a.DepartmentPositions).WithOne();
         builder.HasMany(b => b.DepartmentLocations).WithOne();
     }

@@ -1,6 +1,5 @@
 ﻿using Domain.Departments.ValueObjects;
-using Domain.Locations;
-using Domain.Locations.ValueObjects;
+using Domain.LocationContext;
 
 namespace Domain.Departments
 {
@@ -19,8 +18,8 @@ namespace Domain.Departments
         }
         public DepartmentId DepartmentId { get; private set; } = null!;
         public Department Department { get; private set; } = null!;
-        public LocationId LocationId { get; private set; } = null!;
+        public Guid LocationId { get; private set; }
         public Location Location { get; private set; } = null!;
-        public DateTime AssignedAt { get; private set; }
+        public DateTime AssignedAt { get; private set; } = DateTime.UtcNow;
     }
 }
